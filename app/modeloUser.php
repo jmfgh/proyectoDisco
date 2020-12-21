@@ -25,9 +25,7 @@ function modeloUserInit(){
     $datosjson = @file_get_contents(FILEUSER) or die("ERROR al abrir fichero de usuarios");
     $tusuarios = json_decode($datosjson, true);
     $_SESSION['tusuarios'] = $tusuarios;
-   }
-
-      
+   }  
 }
 
 // Comprueba usuario y contraseña (boolean)
@@ -52,7 +50,7 @@ function modeloUserDel($user){
     unset($_SESSION['tusuarios'][$user]); // Borrar el elemento
     // Reindexa el indice 0,1,2 de la array
     $_SESSION['tusuarios'] = array_values($_SESSION[$user]);
-    
+    modeloUserSave();
     return true;
 }
 // Añadir un nuevo usuario (boolean)

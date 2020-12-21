@@ -1,20 +1,24 @@
 <?php
 
-function comprobarValoresModificar($nombre, $clave1, $clave2, $mail, $nplan){
+function comprobarValoresModificar($user, $nombre, $clave, $mail, $nplan){
     $msg = "";
     
-    if($clave1 == $clave2){
-        if(comprobarContra($clave1)){
-        }else{
-            $msg = "ERROR: Contraseña inválida";
-        }
-    }else{
-        $msg = "ERROR: Las contraseñas no coinciden";
+
+    if(!comprobarContra($clave)){
+      $msg = "ERROR: Contraseña inválida";
     }
     
     if(1 === preg_match('/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,6})$/', $mail)){
     }else{
         $msg = "ERROR: Formato de correo inválido";
+    }
+    
+    foreach ($_SESSION['tusuarios'] as $clave => $datosusuario){
+
+        if($datosusuario[2] == $mail && $clave != $user){
+            $msg = "ERROR: Ya existe un usuario con ese correo.";
+            break;
+        }
     }
     
     if($nplan < 0 || $nplan > 3 ){
@@ -41,11 +45,11 @@ function comprobarValoresAlta($user, $nombre, $clave1, $clave2, $mail, $nplan){
     }else{
         $msg = "ERROR: Las contraseñas no coinciden";
     }
-    /*
+    
     if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
         $msg = "ERROR: Formato de correo inválido";
     }
-    */
+    
     if($nplan < 0 || $nplan > 3 ){
         $msg = "ERROR: Ese tipo de plan no se encuentra disponible.";
     }

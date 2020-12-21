@@ -55,7 +55,7 @@ function ctlUserAlta(){
     
     if ( $_SERVER['REQUEST_METHOD'] == "POST"){
         
-        if(empty($_POST['user']) || empty($_POST['nombre']) || empty($_POST['clave1']) || empty($_POST['clave2'])||empty($_POST['mail'])||empty($_POST['nplan'])){
+        if(empty($_POST['user']) || empty($_POST['nombre']) || empty($_POST['clave1']) || empty($_POST['clave2'])||empty($_POST['mail'])){
             $msg = VACIO;
         }else{
             limpiarArrayEntrada($_POST); //Evito la posible inyección de código
@@ -72,7 +72,8 @@ function ctlUserAlta(){
             if($msg == ""){
                 if(modeloUserAdd($user, [$clave1, $nombre, $mail, $nplan, $estado])){
                     $msg = "Nuevo Usuario Registrado";
-                    header('Refresh:2; Location:index.php?orden=VerUsuarios');
+                    header('location:index.php?orden=VerUsuarios');
+                    exit();
                 }else{
                     $msg = "ERROR: No se ha podido completar el registo.";
                 }
@@ -103,49 +104,50 @@ function ctlUserModificar(){
         $datosusuario = modeloUserGet($_GET['id']);
         
         $user = $_GET['id'];
-        $nombre = $datosusuario[0];
-        $clave1 = $datosusuario[1];
-        $clave2 = $datosusuario[1];
+        $_SESSION['id'] = $user;
+        $clave = $datosusuario[0];
+        $nombre = $datosusuario[1];
         $mail = $datosusuario[2];
         $nplan= $datosusuario[3];
         $estado= $datosusuario[4];
         
-        include_once 'plantilla/fmod.php';
     }
     
     if ( $_SERVER['REQUEST_METHOD'] == "POST"){
         
-        if(empty($_POST['user']) || empty($_POST['nombre']) || empty($_POST['clave1']) || empty($_POST['clave2'])||empty($_POST['mail'])||empty($_POST['nplan'])){
+        if(empty($_POST['nombre']) || empty($_POST['clave']) ||empty($_POST['mail'])){
             $msg = VACIO;
         }else{
             limpiarArrayEntrada($_POST); //Evito la posible inyección de código
             
-            $user  = $_POST['user'];
+            $user  = $_SESSION['id'];
             $nombre  = $_POST['nombre'];
-            $clave1   = $_POST['clave1'];
-            $clave2   = $_POST['clave2'];
+            $clave   = $_POST['clave'];
             $mail = $_POST['mail'];
             $nplan = $_POST['nplan'];
             $estado= $_POST['estado'];
-            $msg = comprobarValoresModificar($nombre, $clave1, $clave2, $mail, $nplan);
+            $msg = comprobarValoresModificar($user, $nombre, $clave, $mail, $nplan);
             
             if($msg == ""){
-                if(modeloUserUpdate($user, [$clave1, $nombre, $mail, $nplan, $estado])){
+                if(modeloUserUpdate($user, [$clave, $nombre, $mail, $nplan, $estado])){
                     $msg = "Datos Actualizados";
-                    header('Refresh:2; Location:index.php?orden=VerUsuarios');
+                    header('location:index.php?orden=VerUsuarios');
                     exit();
                 }else{
-                    $msg = "ERROR: No se ha podido completar el registo.";
+                    $msg = "ERROR: No se ha podido realizar la modificación.";
                 }
             }
         }
     }
     
+    include_once 'plantilla/fmod.php';
+  
 }
 
 function ctlUserBorrar(){
     $user = $_GET['id'];
     modeloUserDel($user);
+
 }
 
 // Cierra la sesión y vuelva los datos

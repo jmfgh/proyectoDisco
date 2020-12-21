@@ -9,7 +9,7 @@ include_once 'app/modeloUser.php';
 modeloUserInit();
 
 // Enrutamiento
-// Relaci�n entre peticiones y funci�n que la va a tratar
+// Relaci�n entre peticiones y función que la va a tratar
 // Versi�n sin POO no manejo de Clases ni objetos
 $rutasUser = [
     "Inicio"      => "ctlUserInicio",
