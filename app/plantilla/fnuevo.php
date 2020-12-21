@@ -11,9 +11,9 @@ ob_start();
       Nombre: <input type="text" name="nombre" size="25"><br>
       Contraseña: <input type="password" name="clave1" size="15"><br>
       Confirmar Contraseña: <input type="password" name="clave2" size="15"><br>
-      Correo: <input type="email" name="mail" size="15"><br>
+      Correo: <input type="text" name="mail" size="15"><br>
       Tipo de Plan: <br>
-      <input type="radio" name="nplan" value="0"> Básico<br>
+      <input type="radio" name="nplan" value="0" checked> Básico<br>
       <input type="radio" name="nplan" value="1"> Profesional<br>
       <input type="radio" name="nplan" value="2"> Premium<br>
       <input type="radio" name="nplan" value="3"> Máster<br>

@@ -6,46 +6,6 @@ include_once 'config.php';
 include_once 'modeloUser.php';
 include_once 'funciones.php';
 
-//Registrar nuevo usuario
-function ctlUserRegistroUsuario() {
-    $user  = "";
-    $nombre  = "";
-    $clave1   = "";
-    $clave2   = "";
-    $mail = "";
-    $nplan = "";
-    $estado = "A";
-    $msg = "";
-    
-    if ( $_SERVER['REQUEST_METHOD'] == "POST"){
-        
-        if(empty($_POST['user']) || empty($_POST['nombre']) || empty($_POST['clave1']) || empty($_POST['clave2'])||empty($_POST['mail'])||empty($_POST['nplan'])){
-            $msg = VACIO;
-        }else{
-            limpiarArrayEntrada($_POST); //Evito la posible inyecci�n de c�digo
-            
-            $user  = $_POST['user'];
-            $nombre  = $_POST['user'];
-            $clave1   = $_POST['user'];
-            $clave2   = $_POST['user'];
-            $mail = $_POST['user'];
-            $nplan= $_POST['user'];
-            $estado= "A"; //Vuelvo a asignarlo por si acaso intenta modificarlo en el html
-            $msg = comprobarValoresAlta($user, $nombre, $clave1, $clave2, $mail, $nplan);
-            
-            if($msg == ""){
-                if(modeloUserAdd($user, [$clave1, $nombre, $mail, $nplan, $estado])){
-                    $msg = "Nuevo Administrador Registrado";
-                    header('Refresh:1; Location:index.php?orden=VerUsuarios'.urldecode($msg));
-                }else{
-                    $msg = "ERROR: No se ha podido completar el registo.";
-                }
-            }
-        }
-    }
-
-    include_once 'plantilla/freg.php';
-}
 
 /*
  * Inicio Muestra o procesa el formulario (POST)
@@ -91,7 +51,6 @@ function ctlUserAlta(){
     $clave2   = "";
     $mail = "";
     $nplan = "";
-    $estado = "I";
     $msg = "";
     
     if ( $_SERVER['REQUEST_METHOD'] == "POST"){
@@ -99,21 +58,21 @@ function ctlUserAlta(){
         if(empty($_POST['user']) || empty($_POST['nombre']) || empty($_POST['clave1']) || empty($_POST['clave2'])||empty($_POST['mail'])||empty($_POST['nplan'])){
             $msg = VACIO;
         }else{
-            limpiarArrayEntrada($_POST); //Evito la posible inyecci�n de c�digo
+            limpiarArrayEntrada($_POST); //Evito la posible inyección de código
             
             $user  = $_POST['user'];
-            $nombre  = $_POST['user'];
-            $clave1   = $_POST['user'];
-            $clave2   = $_POST['user'];
-            $mail = $_POST['user'];
-            $nplan= $_POST['user'];
-            $estado= "I"; //Vuelvo a asignarlo por si acaso intenta modificarlo en el html
+            $nombre  = $_POST['nombre'];
+            $clave1   = $_POST['clave1'];
+            $clave2   = $_POST['clave2'];
+            $mail = $_POST['mail'];
+            $nplan = $_POST['nplan'];
+            $estado = ($nplan == 3)? "A" : "I";
             $msg = comprobarValoresAlta($user, $nombre, $clave1, $clave2, $mail, $nplan);
             
             if($msg == ""){
                 if(modeloUserAdd($user, [$clave1, $nombre, $mail, $nplan, $estado])){
                     $msg = "Nuevo Usuario Registrado";
-                    header('Refresh:1; Location:index.php?orden=VerUsuarios'.urldecode($msg));
+                    header('Refresh:2; Location:index.php?orden=VerUsuarios');
                 }else{
                     $msg = "ERROR: No se ha podido completar el registo.";
                 }
@@ -150,6 +109,8 @@ function ctlUserModificar(){
         $mail = $datosusuario[2];
         $nplan= $datosusuario[3];
         $estado= $datosusuario[4];
+        
+        include_once 'plantilla/fmod.php';
     }
     
     if ( $_SERVER['REQUEST_METHOD'] == "POST"){
@@ -157,29 +118,28 @@ function ctlUserModificar(){
         if(empty($_POST['user']) || empty($_POST['nombre']) || empty($_POST['clave1']) || empty($_POST['clave2'])||empty($_POST['mail'])||empty($_POST['nplan'])){
             $msg = VACIO;
         }else{
-            limpiarArrayEntrada($_POST); //Evito la posible inyecci�n de c�digo
+            limpiarArrayEntrada($_POST); //Evito la posible inyección de código
             
             $user  = $_POST['user'];
-            $nombre  = $_POST['user'];
-            $clave1   = $_POST['user'];
-            $clave2   = $_POST['user'];
-            $mail = $_POST['user'];
-            $nplan= $_POST['user'];
-            $estado= "I"; //Vuelvo a asignarlo por si acaso intenta modificarlo en el html
+            $nombre  = $_POST['nombre'];
+            $clave1   = $_POST['clave1'];
+            $clave2   = $_POST['clave2'];
+            $mail = $_POST['mail'];
+            $nplan = $_POST['nplan'];
+            $estado= $_POST['estado'];
             $msg = comprobarValoresModificar($nombre, $clave1, $clave2, $mail, $nplan);
             
             if($msg == ""){
                 if(modeloUserUpdate($user, [$clave1, $nombre, $mail, $nplan, $estado])){
                     $msg = "Datos Actualizados";
-                    header('Location:index.php?orden=VerUsuarios'.urldecode($msg));
+                    header('Refresh:2; Location:index.php?orden=VerUsuarios');
+                    exit();
                 }else{
                     $msg = "ERROR: No se ha podido completar el registo.";
                 }
             }
         }
     }
-    
-  include_once 'plantilla/fmod.php';
     
 }
 

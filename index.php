@@ -9,10 +9,9 @@ include_once 'app/modeloUser.php';
 modeloUserInit();
 
 // Enrutamiento
-// Relación entre peticiones y función que la va a tratar
-// Versión sin POO no manejo de Clases ni objetos
+// Relaciï¿½n entre peticiones y funciï¿½n que la va a tratar
+// Versiï¿½n sin POO no manejo de Clases ni objetos
 $rutasUser = [
-    "Registrarse" => "ctlUserRegistroUsuario",
     "Inicio"      => "ctlUserInicio",
     "Alta"        => "ctlUserAlta",
     "Detalles"    => "ctlUserDetalles",
@@ -24,8 +23,8 @@ $rutasUser = [
 // Si no hay usuario a Inicio
 if (!isset($_SESSION['user'])){
     //Dar de alta nuevo usuario
-    if(isset($_GET['orden']) && $_GET['orden'] == "Registrarse"){
-        $procRuta = "ctlUserRegistroUsuario";
+    if(isset($_GET['orden']) && $_GET['orden'] == "Alta"){
+        $procRuta = "ctlUserAlta";
     }else{
         $procRuta = "ctlUserInicio";
     }

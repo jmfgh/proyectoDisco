@@ -6,15 +6,15 @@ function comprobarValoresModificar($nombre, $clave1, $clave2, $mail, $nplan){
     if($clave1 == $clave2){
         if(comprobarContra($clave1)){
         }else{
-            $msg = "ERROR: Contraseña inválida";
+            $msg = "ERROR: ContraseÃ±a invÃ¡lida";
         }
     }else{
-        $msg = "ERROR: Las contraseñas no coinciden";
+        $msg = "ERROR: Las contraseÃ±as no coinciden";
     }
     
     if(1 === preg_match('/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,6})$/', $mail)){
     }else{
-        $msg = "ERROR: Formato de correo inválido";
+        $msg = "ERROR: Formato de correo invÃ¡lido";
     }
     
     if($nplan < 0 || $nplan > 3 ){
@@ -30,25 +30,24 @@ function comprobarValoresAlta($user, $nombre, $clave1, $clave2, $mail, $nplan){
     
     if(strlen($user) >= 5 && strlen($user) <= 10 && !comprobarUsuario($user)){
     }else{
-        $msg = "ERROR: Usuario no válido";
+        $msg = "ERROR: Usuario no vÃ¡lido";
     }
     
     if($clave1 == $clave2){
         if(comprobarContra($clave1)){
         }else{
-            $msg = "ERROR: Contraseña inválida";
+            $msg = "ERROR: ContraseÃ±a invÃ¡lida";
         }
     }else{
-        $msg = "ERROR: Las contraseñas no coinciden";
+        $msg = "ERROR: Las contraseÃ±as no coinciden";
     }
-    
-    if(1 === preg_match('/^[A-z0-9\\._-]+@[A-z0-9][A-z0-9-]*(\\.[A-z0-9_-]+)*\\.([A-z]{2,6})$/', $mail)){
-    }else{
-        $msg = "ERROR: Formato de correo inválido";
+    /*
+    if (!filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+        $msg = "ERROR: Formato de correo invÃ¡lido";
     }
-    
+    */
     if($nplan < 0 || $nplan > 3 ){
-        $msg = "ERROR: Ese tipo de plan se encuentra disponible.";
+        $msg = "ERROR: Ese tipo de plan no se encuentra disponible.";
     }
     
     return $msg;
@@ -107,12 +106,12 @@ function hayNoAlfanumerico ($valor){
 }
 
 function limpiarEntrada(string $entrada):string{
-    $salida = trim($entrada); // Elimina espacios antes y después de los datos
+    $salida = trim($entrada); // Elimina espacios antes y despuÃ©s de los datos
     $salida = stripslashes($salida); // Elimina backslashes \
     $salida = htmlspecialchars($salida); // Traduce caracteres especiales en entidades HTML
     return $salida;
 }
-// Función para limpiar todos elementos de un array
+// FunciÃ³n para limpiar todos elementos de un array
 function limpiarArrayEntrada(array &$entrada){
     
     foreach ($entrada as $key => $value ) {

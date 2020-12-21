@@ -55,7 +55,7 @@ function modeloUserDel($user){
     
     return true;
 }
-// A�adir un nuevo usuario (boolean)
+// Añadir un nuevo usuario (boolean)
 function modeloUserAdd($userid,$userdat){
     $_SESSION['tusuarios'][$userid]= $userdat;
     modeloUserSave();
@@ -75,6 +75,7 @@ function modeloUserUpdate ($userid,$userdat){
 
 // Tabla de todos los usuarios para visualizar
 function modeloUserGetAll (){
+    
     // Genero lo datos para la vista que no muestra la contraseña ni los códigos de estado o plan
     // sino su traducción a texto
     $tuservista=[];
